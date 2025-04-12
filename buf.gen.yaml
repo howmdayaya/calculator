@@ -1,0 +1,10 @@
+version: v1
+plugins:
+  - name: es
+    path: C:\Users\23575\AppData\Roaming\npm\protoc-gen-es.cmd
+    out: gen
+    opt: target=ts
+  - name: connect-es
+    path: C:\Users\23575\AppData\Roaming\npm\protoc-gen-connect-es.cmd
+    out: gen
+    opt: target=ts

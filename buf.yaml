@@ -1,0 +1,10 @@
+version: v1
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT
+name: buf.build/yourusername/calculator  # 修改为你的实际 registry 和用户名
+deps:
+  - buf.build/bufbuild/eliza

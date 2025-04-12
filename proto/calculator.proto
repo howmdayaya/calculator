@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package calculator;
+
+option go_package = "github.com/example/calculator/gen";
+
+// 计算器服务定义
+service CalculatorService {
+  // 加法操作
+  rpc Add(CalculateRequest) returns (CalculateResponse) {}
+  
+  // 减法操作
+  rpc Subtract(CalculateRequest) returns (CalculateResponse) {}
+  
+  // 乘法操作
+  rpc Multiply(CalculateRequest) returns (CalculateResponse) {}
+  
+  // 除法操作
+  rpc Divide(CalculateRequest) returns (CalculateResponse) {}
+}
+
+// 计算请求
+message CalculateRequest {
+  double a = 1;
+  double b = 2;
+}
+
+// 计算响应
+message CalculateResponse {
+  double result = 1;
+  string error = 2; // 用于处理错误情况，如除以零
+}
