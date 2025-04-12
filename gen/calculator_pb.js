@@ -24,7 +24,7 @@ export class CalculateRequest extends Message {
     proto3.util.initPartial(data, this)
   }
 
-  static readonly TYPE = new proto3.MessageType(
+  static TYPE = new proto3.MessageType(
     "calculator.CalculateRequest",
     [
       { no: 1, name: "a", kind: "scalar", T: proto3.ScalarType.DOUBLE },
@@ -52,7 +52,7 @@ export class CalculateResponse extends Message {
     proto3.util.initPartial(data, this)
   }
 
-  static readonly TYPE = new proto3.MessageType(
+  static TYPE = new proto3.MessageType(
     "calculator.CalculateResponse",
     [
       { no: 1, name: "result", kind: "scalar", T: proto3.ScalarType.DOUBLE },

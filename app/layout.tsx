@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN" suppressHydrationWarning> {/* 添加 suppressHydrationWarning */}
+    <html lang="zh-CN" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         {children}
       </body>

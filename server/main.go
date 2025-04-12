@@ -3,10 +3,11 @@ package main
 import (
 	"log"
 	"net/http"
-
+	"context" 
+	"errors"  // 添加这行
+	"github.com/bufbuild/connect-go"
 	"github.com/example/calculator/calculator"
 	calculatorpb "github.com/example/calculator/calculatorpb"
-	"github.com/bufbuild/connect-go"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 )
@@ -18,7 +19,29 @@ func main() {
 	mux := http.NewServeMux()
 	
 	// 注册服务处理器
-	path, handler := calculatorpb.NewCalculatorServiceHandler(calculatorServer)
+	path := "/calculator.CalculatorService/"
+	handler := connect.NewUnaryHandler(
+		path,
+		func(ctx context.Context, req *connect.Request[calculatorpb.CalculateRequest]) (*connect.Response[calculatorpb.CalculateResponse], error) {
+			// 根据请求路径调用相应的方法
+			switch req.Spec().Procedure {
+			case path+"Add":
+				res, err := calculatorServer.Add(ctx, req.Msg)
+				return connect.NewResponse(res), err
+			case path+"Subtract":
+				res, err := calculatorServer.Subtract(ctx, req.Msg)
+				return connect.NewResponse(res), err
+			case path+"Multiply":
+				res, err := calculatorServer.Multiply(ctx, req.Msg)
+				return connect.NewResponse(res), err
+			case path+"Divide":
+				res, err := calculatorServer.Divide(ctx, req.Msg)
+				return connect.NewResponse(res), err
+			default:
+				return nil, connect.NewError(connect.CodeUnimplemented, errors.New("未知方法"))
+			}
+		},
+	)
 	mux.Handle(path, handler)
 	
 	// 添加 CORS 中间件

@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 
-// Define our own interfaces instead of using generated protobuf code
 interface CalculateRequest {
   a: number
   b: number
@@ -55,7 +54,7 @@ export default function Calculator() {
     setError(null)
   }
 
-  // Perform calculation locally when backend is not available
+
   const calculateLocally = (a: number, b: number, op: string): number => {
     switch (op) {
       case "+":
@@ -114,7 +113,7 @@ export default function Calculator() {
     secondOperand: number,
     operation: string,
   ): Promise<number> => {
-    // If we're already in offline mode, don't try to connect to the backend
+    
     if (isOfflineMode) {
       return calculateLocally(firstOperand, secondOperand, operation)
     }
@@ -143,7 +142,7 @@ export default function Calculator() {
           throw new Error("未知操作")
       }
 
-      // Set a timeout for the fetch request
+      // 超时处理
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 3000) // 3 second timeout
 
@@ -172,7 +171,6 @@ export default function Calculator() {
 
         return result.result
       } catch (fetchError) {
-        // If fetch fails, switch to offline mode and use local calculation
         console.log("后端服务不可用，切换到本地计算模式")
         setIsOfflineMode(true)
         return calculateLocally(firstOperand, secondOperand, operation)

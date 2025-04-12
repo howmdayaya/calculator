@@ -8,8 +8,8 @@ import (
 	"os"
 	"strconv"
 
-	calculatorpb "github.com/example/calculator/calculatorpb"
 	"github.com/bufbuild/connect-go"
+	calculatorpb "github.com/example/calculator/calculatorpb"
 )
 
 func main() {
@@ -30,14 +30,14 @@ func main() {
 		log.Fatalf("无效的第二个数字: %v", err)
 	}
 
-	// 创建 HTTP 客户端
-	client := calculatorpb.NewCalculatorServiceClient(
+	
+	// 创建客户端
+	client := connect.NewClient[calculatorpb.CalculateRequest, calculatorpb.CalculateResponse](
 		http.DefaultClient,
-		"http://localhost:8080",
+		"http://localhost:8080/calculator.CalculatorService/",
 	)
 
-	// 准备请求
-	req := connect.NewRequest(&calculatorpb.CalculateRequest{
+	connect.NewRequest(&calculatorpb.CalculateRequest{
 		A: a,
 		B: b,
 	})
@@ -48,13 +48,25 @@ func main() {
 
 	switch operation {
 	case "add":
-		resp, err = client.Add(ctx, req)
+		resp, err = client.CallUnary(ctx, connect.NewRequest(&calculatorpb.CalculateRequest{
+			A: a,
+			B: b,
+		}))
 	case "subtract":
-		resp, err = client.Subtract(ctx, req)
+		resp, err = client.CallUnary(ctx, connect.NewRequest(&calculatorpb.CalculateRequest{
+			A: a,
+			B: b,
+		}))
 	case "multiply":
-		resp, err = client.Multiply(ctx, req)
+		resp, err = client.CallUnary(ctx, connect.NewRequest(&calculatorpb.CalculateRequest{
+			A: a,
+			B: b,
+		}))
 	case "divide":
-		resp, err = client.Divide(ctx, req)
+		resp, err = client.CallUnary(ctx, connect.NewRequest(&calculatorpb.CalculateRequest{
+			A: a,
+			B: b,
+		}))
 	default:
 		log.Fatalf("未知操作: %s", operation)
 	}
